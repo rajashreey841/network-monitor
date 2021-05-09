@@ -1,4 +1,17 @@
 {% extends "netmon/base.html" %}
 {% block content %}
-        <h1> Network Monitor </h1>
+    {% for device in devices %}
+        <article class="media content-section">
+            <div class="media-body">
+            <div class="article-metadata">
+                <small class="text-muted">{{ device.id }} | {{ device.type }}</small>
+            </div>
+            <h2><a class="article-title" href="#">{{ device.name }}</a></h2>
+            <p class="article-content">{{ device.ip }}</p>
+            <p class="article-content">{{ device.mac }}</p>
+            <p class="article-content">{{ device.info }}</p>
+            <p class="article-content">{{ device.traffic }}</p>
+            </div>
+        </article>
+    {% endfor %}
 {%endblock content %}
