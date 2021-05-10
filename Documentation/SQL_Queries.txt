@@ -7,3 +7,16 @@ integer NOT NULL, "dev_rx_traffic" integer NOT NULL, "dev_last_updated"
 datetime NOT NULL, "dev_added_by_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED);
 CREATE INDEX "netmon_device_dev_added_by_id_6f173a7b" ON "netmon_device" ("dev_added_by_id");
 COMMIT;
+
+
+
+
+### Commands ###
+pip3 install django
+django-admin startproject netmon_project
+python3 manage.py startapp netmon
+python3 manage.py runserver
+python3 manage.py migrate
+python3 manage.py makemigrations
+python3 manage.py sqlmigrate netmon 0001
+python3 manage.py createsuperuser 
