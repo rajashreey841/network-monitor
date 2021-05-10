@@ -1,0 +1,9 @@
+BEGIN;
+--
+-- Create model Device
+--
+CREATE TABLE "netmon_device" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "dev_name" varchar(100) NOT NULL, "dev_id" integer NOT NULL, "dev_type" varchar(100) NOT NULL, "dev_ip" varchar(16) NOT NULL, "dev_mac" varchar(18) NOT NULL, "dev_info" varchar(100) NOT NULL, "dev_tx_traffic" 
+integer NOT NULL, "dev_rx_traffic" integer NOT NULL, "dev_last_updated" 
+datetime NOT NULL, "dev_added_by_id" integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED);
+CREATE INDEX "netmon_device_dev_added_by_id_6f173a7b" ON "netmon_device" ("dev_added_by_id");
+COMMIT;
