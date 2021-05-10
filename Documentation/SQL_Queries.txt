@@ -27,13 +27,19 @@ python3 manage.py shell
     > User.objects.first()
     > User.objects.last()
     > User.objects.filter(username='admin')
-    > user = User.objects.filter(userbame='admin').first()
+    > user = User.objects.filter(username='admin').first()
     > user
     <User: admin>
     > user.pk
     1
     > device_1 = Device(dev_name='PROD Server', dev_id='1', dev_type='Server', dev_ip='192.168.1.10',dev_mac='AA:BB:CC:DD:EE:FF',dev_info='Windows Server 2012 R2',dev_tx_traffic='4387', dev_rx_traffic='1234', dev_added_by=user)
+    > device_2 = Device(dev_name='Router', dev_id='2', dev_type='Router', dev_ip='192.168.230.246',dev_mac='AA:BB:CC:DD:EE:GG',dev_info='Cisco Router ISR 4413',dev_tx_traffic='9909', dev_rx_traffic='3445', dev_added_by=user)
     > device_1.save()
+    > device_2.save()
     > Device.objects.all()
         <QuerySet [<Device: Device object (1)>]>
+    > device_1.dev_added_by.email
+        ravikumark815@gmail
+    > user.device_set.all()
+        <QuerySet [<Device: PROD Server>, <Device: Router>]>
     > 
