@@ -13,3 +13,6 @@ class Device(models.Model):
     dev_rx_traffic = models.IntegerField(max_length=10)
     dev_last_updated = models.DateTimeField(default=timezone.now)
     dev_added_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.dev_name

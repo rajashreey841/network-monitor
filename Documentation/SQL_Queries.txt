@@ -32,3 +32,8 @@ python3 manage.py shell
     <User: admin>
     > user.pk
     1
+    > device_1 = Device(dev_name='PROD Server', dev_id='1', dev_type='Server', dev_ip='192.168.1.10',dev_mac='AA:BB:CC:DD:EE:FF',dev_info='Windows Server 2012 R2',dev_tx_traffic='4387', dev_rx_traffic='1234', dev_added_by=user)
+    > device_1.save()
+    > Device.objects.all()
+        <QuerySet [<Device: Device object (1)>]>
+    > 
