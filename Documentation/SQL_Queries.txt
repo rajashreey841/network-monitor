@@ -20,3 +20,15 @@ python3 manage.py migrate
 python3 manage.py makemigrations
 python3 manage.py sqlmigrate netmon 0001
 python3 manage.py createsuperuser 
+python3 manage.py shell
+    > from netmon.models import Device
+    > from django.contrib.auth.models import User
+    > User.objects.all()
+    > User.objects.first()
+    > User.objects.last()
+    > User.objects.filter(username='admin')
+    > user = User.objects.filter(userbame='admin').first()
+    > user
+    <User: admin>
+    > user.pk
+    1
