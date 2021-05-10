@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Device
+
 devices = [
     {
         'dev_name': 'PROD Server',
@@ -30,7 +32,7 @@ devices = [
 # Create your views here.
 def home(request):
     context = {
-        'devices': devices
+        'devices': Device.objects.all()
     }
     return render(request, 'netmon/home.html', context)
 

@@ -7,12 +7,12 @@
                 <small class="text-muted">{{ device.dev_id }} | {{ device.dev_type }}</small>
             </div>
             <h2><a class="article-title" href="#">{{ device.dev_name }}</a></h2>
-            <p class="article-content">{{ device.dev_ip }}</p>
-            <p class="article-content">{{ device.dev_mac }}</p>
-            <p class="article-content">{{ device.dev_info }}</p>
+            <p class="article-content">IP: {{ device.dev_ip }}</p>
+            <p class="article-content">MAC: {{ device.dev_mac }}</p>
+            <p class="article-content">Info: {{ device.dev_info }}</p>
             <p class="article-content">TX: {{ device.dev_tx_traffic }} RX: {{ device.dev_rx_traffic }}</p>
-            <p class="article-content">{{ device.dev_last_updated }}</p>
-            <p class="article-content">{{ device.dev_added_by }}</p>
+            <p class="article-content">Last Updated: {{ device.dev_last_updated }}</p>
+            <p class="article-content"> Added by: {{ device.dev_added_by }}</p>
             </div>
         </article>
     {% endfor %}
