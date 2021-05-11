@@ -13,6 +13,7 @@ COMMIT;
 
 ### Commands ###
 pip3 install django
+pip3 install django-crispy-forms
 django-admin startproject netmon_project
 python3 manage.py startapp netmon
 python3 manage.py runserver
