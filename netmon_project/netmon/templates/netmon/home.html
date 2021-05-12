@@ -2,6 +2,7 @@
 {% block content %}
     {% for device in devices %}
         <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ device.dev_added_by.profile.image.url }}">
             <div class="media-body">
             <div class="article-metadata">
                 <small class="text-muted">{{ device.dev_id }} | {{ device.dev_type }}</small>
