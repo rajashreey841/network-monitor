@@ -7,7 +7,7 @@
             <div class="article-metadata">
                 <small class="text-muted">{{ device.dev_id }} | {{ device.dev_type }}</small>
             </div>
-            <h2><a class="article-title" href="#">{{ device.dev_name }}</a></h2>
+            <h2><a class="article-title" href="{% url 'device-detail' device.id %}">{{ device.dev_name }}</a></h2>
             <p class="article-content">IP: {{ device.dev_ip }}</p>
             <p class="article-content">MAC: {{ device.dev_mac }}</p>
             <p class="article-content">Info: {{ device.dev_info }}</p>
