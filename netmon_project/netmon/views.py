@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Device
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # devices = [
 #     {
@@ -38,15 +39,15 @@ def home(request):
     }
     return render(request, 'netmon/home.html', context)
 
-class DeviceListView(ListView):
+class DeviceListView(LoginRequiredMixin, ListView):
     model = Device
     template_name = 'netmon/home.html'
     context_object_name = 'devices'
 
-class DeviceDetailView(DetailView):
+class DeviceDetailView(LoginRequiredMixin, DetailView):
     model = Device
 
-class DeviceCreateView(CreateView):
+class DeviceCreateView(LoginRequiredMixin, CreateView):
     model = Device
     fields = ['dev_name', 'dev_ip']
 
@@ -54,7 +55,7 @@ class DeviceCreateView(CreateView):
         form.instance.dev_added_by = self.request.user
         return super().form_valid(form)
 
-class DeviceUpdateView(DetailView):
+class DeviceUpdateView(LoginRequiredMixin, DetailView):
     model = Device
     fields = ['dev_name', 'dev_ip']
 
@@ -68,7 +69,7 @@ class DeviceUpdateView(DetailView):
             return True
         return False
 
-class DeviceDeleteView(DetailView):
+class DeviceDeleteView(LoginRequiredMixin, DetailView):
     model = Device
     success_url = '/'
 

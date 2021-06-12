@@ -1,18 +1,22 @@
 {% extends "netmon/base.html" %}
 {% block content %}
-    <article class="media content-section">
-        <img class="rounded-circle article-img" src="{{ object.dev_added_by.profile.image.url }}">
-        <div class="media-body">
-            <div class="article-metadata">
-                <small class="text-muted">{{ object.dev_id }} | {{ object.dev_type }}</small>
-            </div>
-            <h2 class="article-title">{{ object.dev_name }}</h2>
-            <p class="article-content">IP: {{ object.dev_ip }}</p>
-            <p class="article-content">MAC: {{ object.dev_mac }}</p>
-            <p class="article-content">Info: {{ object.dev_info }}</p>
-            <p class="article-content">TX: {{ object.dev_tx_traffic }} RX: {{ object.dev_rx_traffic }}</p>
-            <p class="article-content">Last Updated: {{ object.dev_last_updated }}</p>
-            <p class="article-content"> Added by: {{ object.dev_added_by }}</p>
+<article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ object.dev_added_by.profile.image.url }}">
+    <div class="media-body">
+        <div class="article-metadata">
+            <small class="text-muted">{{ object.dev_id }} | {{ object.dev_type }}</small>
         </div>
-    </article>
+        <h2 class="article-title">{{ object.dev_name }}</h2>
+        <p class="article-content">IP: {{ object.dev_ip }}</p>
+        <p class="article-content">MAC: {{ object.dev_mac }}</p>
+        <p class="article-content">Info: {{ object.dev_info }}</p>
+        <p class="article-content">TX: {{ object.dev_tx_traffic }} RX: {{ object.dev_rx_traffic }}</p>
+        <p class="article-content">Last Updated: {{ object.dev_last_updated }}</p>
+        <p class="article-content"> Added by: {{ object.dev_added_by }}</p>
+        <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'device-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'device-delete' object.id %}">Delete</a>
+        </div>
+    </div>
+</article>
 {%endblock content %}
