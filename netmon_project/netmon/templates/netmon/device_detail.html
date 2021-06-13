@@ -4,10 +4,10 @@
     <img class="rounded-circle article-img" src="{{ object.dev_added_by.profile.image.url }}">
     <div class="media-body">
         <div class="article-metadata">
-            <small class="text-muted">{{ object.dev_id }} | {{ object.dev_type }}</small>
+            <small class="text-muted">{{ object.dev_type }} | {{ object.dev_ip }}</small>
         </div>
         <h2 class="article-title">{{ object.dev_name }}</h2>
-        <p class="article-content">IP: {{ object.dev_ip }}</p>
+        <p class="article-content">Status: {{ device.dev_status }}</p>
         <p class="article-content">MAC: {{ object.dev_mac }}</p>
         <p class="article-content">Info: {{ object.dev_info }}</p>
         <p class="article-content">TX: {{ object.dev_tx_traffic }} RX: {{ object.dev_rx_traffic }}</p>

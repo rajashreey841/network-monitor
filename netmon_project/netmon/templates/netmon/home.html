@@ -5,11 +5,10 @@
     <img class="rounded-circle article-img" src="{{ device.dev_added_by.profile.image.url }}">
     <div class="media-body">
         <div class="article-metadata">
-            <a class="mr-2" href="#">{{ device.dev_added_by }}</a>
-            <small class="text-muted">Last Updated: {{ device.dev_last_updated }}</small>
+            <small class="text-muted">{{ device.dev_ip }} | Last Updated: {{ device.dev_last_updated }}</small>
         </div>
         <h2><a class="article-title" href="{% url 'device-detail' device.id %}">{{ device.dev_name }}</a></h2>
-        <p class="article-content">IP: {{ device.dev_ip }}</p>
+        <p class="article-content">Status: {{ device.dev_status }}</p>
     </div>
 </article>
 {% endfor %}
