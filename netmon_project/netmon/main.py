@@ -1,7 +1,8 @@
 import platform
 import subprocess
 from django.db import models
-from .models import Device
+from netmon.models import Device
+from background_task import background
 
 def ping(host):
     """
@@ -17,11 +18,16 @@ def ping(host):
 
     return subprocess.call(command) == 0
 
+@background(schedule=60)
 def start_monitor():
     devices = Device.objects.all()
+    print(">>>>>>>>>>> In Start_monitor <<<<<<<<<<<")
     # for device in devices:
     #     if (ping(device.dev_ip)):
     #         device.status = "Alive"
     #     else:
     #         device.status = "Dead"
     #     device.save(update_fields=["dev_status"])
+
+if __name__ == '__main__':
+    start_monitor()

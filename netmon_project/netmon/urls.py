@@ -1,5 +1,7 @@
+import threading
 from django.urls import path
 from . import views
+from .main import start_monitor
 from .views import (
     DeviceListView, 
     DeviceDetailView, 
@@ -7,7 +9,6 @@ from .views import (
     DeviceUpdateView, 
     DeviceDeleteView
 )
-from .main import start_monitor
 
 urlpatterns = [
     path('', DeviceListView.as_view(), name='netmon-home'),
@@ -17,5 +18,3 @@ urlpatterns = [
     path('device/<int:pk>/delete/', DeviceDeleteView.as_view(), name='device-delete'),
     path('about/', views.about, name='netmon-about'),
 ]
-
-start_monitor()

@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'netmon.apps.NetmonConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'background_task',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
