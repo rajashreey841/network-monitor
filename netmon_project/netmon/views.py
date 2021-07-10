@@ -11,7 +11,7 @@ def home(request):
 
 class DeviceListView(LoginRequiredMixin, ListView):
     model = Device
-    template_name = 'netmon/home.html'
+    template_name = 'netmon/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'devices'
     ordering = ['-dev_last_updated']
 

@@ -1,6 +1,12 @@
 from django.urls import path
 from . import views
-from .views import DeviceListView, DeviceDetailView, DeviceCreateView, DeviceUpdateView, DeviceDeleteView
+from .views import (
+    DeviceListView, 
+    DeviceDetailView, 
+    DeviceCreateView, 
+    DeviceUpdateView, 
+    DeviceDeleteView
+)
 from .main import start_monitor
 
 urlpatterns = [
