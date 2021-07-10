@@ -18,16 +18,16 @@ def ping(host):
 
     return subprocess.call(command) == 0
 
-@background(schedule=60)
+# @background(schedule=60)
 def start_monitor():
     devices = Device.objects.all()
     print(">>>>>>>>>>> In Start_monitor <<<<<<<<<<<")
-    # for device in devices:
-    #     if (ping(device.dev_ip)):
-    #         device.status = "Alive"
-    #     else:
-    #         device.status = "Dead"
-    #     device.save(update_fields=["dev_status"])
+    for device in devices:
+        if (ping(device.dev_ip)):
+            device.dev_status = "Alive"
+        else:
+            device.dev_status = "Dead"
+        device.save(update_fields=["dev_status"])
 
 if __name__ == '__main__':
     start_monitor()
