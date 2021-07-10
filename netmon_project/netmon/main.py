@@ -1,15 +1,25 @@
+import os
 import platform
 import subprocess
 from subprocess import PIPE, Popen
 from getmac import get_mac_address
 from getmac import getmac
 from django.db import models
+from django.contrib.auth.models import User
 from netmon.models import Device
 from background_task import background
+# Emails
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 # Global Variables
 STATUS_STR_ALIVE = "Alive"
 STATUS_STR_NOT_REACHABLE = "Not Reachable"
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+EMAIL_ALERT_SUBJECT = "<< Network Monitor Alert >>"
+EMAIL_ALERT_BODY = ",\n\tThis is to inform you that the following device has become unreachable."
 
 def icmp_ping(host):
     """
@@ -33,6 +43,25 @@ def arp_mac_lookup(host):
     print("host: ", str(host), "mac: ", mac)
     return str(mac)
 
+def email_form_message(user_name, dev_name, dev_ip):
+    return "Attention " + str(user_name) + EMAIL_ALERT_BODY + "\n" + str(dev_name) + "(" + dev_ip + ")"
+
+
+def email_send_alert(dev_name, dev_ip):
+    users = User.objects.all()
+    s = smtplib.SMTP(host='smtp.gmail.com', port=587)
+    s.starttls()
+    s.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
+    for user in users:
+        msg = MIMEMultipart()
+        msg['From']=EMAIL_HOST_USER
+        msg['To']=user.email
+        msg['Subject']=EMAIL_ALERT_SUBJECT
+        message = email_form_message(user.username, dev_name, dev_ip)
+        msg.attach(MIMEText(message, 'plain'))
+        s.send_message(msg)
+        del msg
+
 @background(schedule=60)
 def start_monitor():
     devices = Device.objects.all()
@@ -44,6 +73,8 @@ def start_monitor():
         icmp_status = icmp_ping(device.dev_ip)
         if (device.dev_status != icmp_status):
             device.dev_status = icmp_status
+            if (icmp_status == STATUS_STR_NOT_REACHABLE):
+                email_send_alert(device.dev_name, device.dev_ip)
         device.save(update_fields=["dev_status"])
 
 if __name__ == '__main__':
