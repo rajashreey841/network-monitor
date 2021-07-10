@@ -18,6 +18,7 @@ pip3 install django
 pip3 install django-crispy-forms
 pip3 install Pillow
 pip3 install django-background-tasks
+pip3 install getmac
 django-admin startproject netmon_project
 python3 manage.py startapp netmon
 python3 manage.py runserver

@@ -15,6 +15,7 @@ class Device(models.Model):
     dev_last_updated = models.DateTimeField(default=timezone.now)
     dev_added_by = models.ForeignKey(User, on_delete=models.CASCADE)
     dev_status = models.CharField(max_length=5, default="Alive")
+    dev_status_changed = models.IntegerField(max_length, default="0")
 
     def __str__(self):
         return self.dev_name
