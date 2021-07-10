@@ -24,5 +24,4 @@ def start_monitor():
             device.status = "Alive"
         else:
             device.status = "Dead"
-        device.save()
-    print("Done")
+        device.save(update_fields=["dev_status"])
