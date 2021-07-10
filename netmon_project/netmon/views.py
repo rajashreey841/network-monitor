@@ -1,5 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import (
+    ListView, 
+    DetailView, 
+    CreateView,
+    UpdateView,
+    DeleteView
+)
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Device
 
@@ -26,7 +32,7 @@ class DeviceCreateView(LoginRequiredMixin, CreateView):
         form.instance.dev_added_by = self.request.user
         return super().form_valid(form)
 
-class DeviceUpdateView(LoginRequiredMixin, DetailView):
+class DeviceUpdateView(LoginRequiredMixin, UpdateView):
     model = Device
     fields = ['dev_name', 'dev_ip']
 
@@ -40,7 +46,7 @@ class DeviceUpdateView(LoginRequiredMixin, DetailView):
             return True
         return False
 
-class DeviceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+class DeviceDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Device
     success_url = '/'
 
