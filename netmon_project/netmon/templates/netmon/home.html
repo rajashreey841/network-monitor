@@ -1,7 +1,7 @@
 {% extends "netmon/base.html" %}
 {% block content %}
 {% for device in devices %}
-<article class="media content-section">
+<!-- <article class="media content-section">
     <img class="rounded-circle article-img" src="{{ device.dev_added_by.profile.image.url }}">
     <div class="media-body">
         <div class="article-metadata">
@@ -11,5 +11,30 @@
         <p class="article-content">Status: {{ device.dev_status }}</p>
     </div>
 </article>
-{% endfor %}
+{% endfor %} -->
+<div>
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">IP Address</th>
+                <th scope="col">MAC Address</th>
+                <th scope="col">Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for device in devices %}
+            <tr>
+                <td><a href="{% url 'device-detail' device.id %}">{{ device.dev_name }}</a></td>
+                <td>{{ device.dev_status }}</td>
+                <td>{{ device.dev_ip }}</td>
+                <td>{{ device.dev_mac }}</td>
+                <td>{{ device.dev_last_updated }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 {%endblock content %}

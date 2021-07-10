@@ -19,10 +19,10 @@ def ping(host):
 
 def start_monitor():
     devices = Device.objects.all()
-    # for device in devices:
-    #     if (ping(device.dev_ip)):
-    #         device.status = "Alive"
-    #     else:
-    #         device.status = "Dead"
-    #     device.save()
+    for device in devices:
+        if (ping(device.dev_ip)):
+            device.status = "Alive"
+        else:
+            device.status = "Dead"
+        device.save()
     print("Done")
