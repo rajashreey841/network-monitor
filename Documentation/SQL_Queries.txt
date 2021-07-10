@@ -8,16 +8,20 @@ datetime NOT NULL, "dev_added_by_id" integer NOT NULL REFERENCES "auth_user" ("i
 CREATE INDEX "netmon_device_dev_added_by_id_6f173a7b" ON "netmon_device" ("dev_added_by_id");
 COMMIT;
 
-
+To Run:
+python3 manage.py runserver
+python3 manage.py process_tasks
 
 
 ### Commands ###
 pip3 install django
 pip3 install django-crispy-forms
 pip3 install Pillow
+pip3 install django-background-tasks
 django-admin startproject netmon_project
 python3 manage.py startapp netmon
 python3 manage.py runserver
+python3 manage.py process_tasks
 python3 manage.py migrate
 python3 manage.py makemigrations
 python3 manage.py sqlmigrate netmon 0001

@@ -18,7 +18,7 @@ def ping(host):
 
     return subprocess.call(command) == 0
 
-# @background(schedule=60)
+@background(schedule=10)
 def start_monitor():
     devices = Device.objects.all()
     print(">>>>>>>>>>> In Start_monitor <<<<<<<<<<<")
