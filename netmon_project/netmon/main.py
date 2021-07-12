@@ -17,6 +17,8 @@ from email.mime.text import MIMEText
 # Global Variables
 STATUS_STR_ALIVE = "Alive"
 STATUS_STR_NOT_REACHABLE = "Not Reachable"
+GUI_ALERT_ALIVE = "Alive"
+GUI_ALERT_NOT_REACHABLE = "Not Reachable"
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 EMAIL_ALERT_SUBJECT = "<< Network Monitor Alert >>"
@@ -63,6 +65,10 @@ def email_send_alert(dev_name, dev_ip):
         s.send_message(msg)
         del msg
 
+def gui_send_alert(dev_name, dev_ip, type, msg):
+    alert = Alert(alert_desc=msg, alert_dev=dev_name, alert_ip=dev_ip, alert_type=type)
+    alert.save()
+
 @background(schedule=60)
 def start_monitor():
     devices = Device.objects.all()
@@ -76,10 +82,9 @@ def start_monitor():
             device.dev_status = icmp_status
             if (icmp_status == STATUS_STR_NOT_REACHABLE):
                 email_send_alert(device.dev_name, device.dev_ip)
-                alert = Alert(alert_dev=device.dev_name, alert_ip=device.dev_ip, alert_type="Red", alert_desc="Device Not Reachable", alert_time=str(datetime.datetime.now()))
+                gui_send_alert(device.dev_name, device.dev_ip, "Red", GUI_ALERT_NOT_REACHABLE)
             else:
-                alert = Alert(alert_dev=device.dev_name, alert_ip=device.dev_ip, alert_type="Green", alert_desc="Device Alive", alert_time=str(datetime.datetime.now()))
-        alert.save()
+                gui_send_alert(device.dev_name, device.dev_ip, "Red", GUI_ALERT_ALIVE)
         device.save(update_fields=["dev_status"])
 
 if __name__ == '__main__':
