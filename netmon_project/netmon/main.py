@@ -1,12 +1,13 @@
 import os
 import platform
 import subprocess
+import datetime
 from subprocess import PIPE, Popen
 from getmac import get_mac_address
 from getmac import getmac
 from django.db import models
 from django.contrib.auth.models import User
-from netmon.models import Device
+from netmon.models import Device, Alert
 from background_task import background
 # Emails
 import smtplib
@@ -75,6 +76,10 @@ def start_monitor():
             device.dev_status = icmp_status
             if (icmp_status == STATUS_STR_NOT_REACHABLE):
                 email_send_alert(device.dev_name, device.dev_ip)
+                alert = Alert(alert_dev=device.dev_name, alert_ip=device.dev_ip, alert_type="Red", alert_desc="Device Not Reachable", alert_time=str(datetime.datetime.now()))
+            else:
+                alert = Alert(alert_dev=device.dev_name, alert_ip=device.dev_ip, alert_type="Green", alert_desc="Device Alive", alert_time=str(datetime.datetime.now()))
+        alert.save()
         device.save(update_fields=["dev_status"])
 
 if __name__ == '__main__':

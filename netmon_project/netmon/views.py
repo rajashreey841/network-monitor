@@ -7,11 +7,14 @@ from django.views.generic import (
     DeleteView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Device
+from .models import Device, Alert
+
+alerts = dict()
 
 def home(request):
     context = {
-        'devices': Device.objects.all()
+        'devices': Device.objects.all(),
+        'alerts': Alert.objects.all()
     }
     return render(request, 'netmon/home.html', context)
 

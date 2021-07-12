@@ -64,12 +64,12 @@
             <div class="col-md-4">
                 <div class="content-section">
                     <h3>Alerts</h3>
+                    {% for alert in alerts %}
                     <ul class="list-group">
-                        <li class="list-group-item list-group-item-light">Latest Posts</li>
-                        <li class="list-group-item list-group-item-light">Announcements</li>
-                        <li class="list-group-item list-group-item-light">Calendars</li>
-                        <li class="list-group-item list-group-item-light">etc</li>
+                        <li class="list-group-item list-group-item-light">{{ alert.alert_time }}:</li>
+                        <li class="list-group-item list-group-item-light">{{ alert.alert_dev }} [{{ alert.alert_ip }}]: {{ alert.alert_desc }}</li>
                     </ul>
+                    {% endfor %}
                     </p>
                 </div>
             </div>
