@@ -2,27 +2,36 @@
 {% block content %}
 
 <div>
-    <table class="table table-hover table-list">
+    <table class="table table-hover table-light">
         <thead class="thead-light">
             <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Status</th>
-                <th scope="col">IP Address</th>
-                <th scope="col">MAC Address</th>
-                <th scope="col">Last Updated</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>IP Address</th>
+                <th>MAC Address</th>
+                <th>TX</th>
+                <th>RX</th>
+                <th>Added By</th>
+                <th>Last Updated</th>
             </tr>
         </thead>
         <tbody>
             {% for device in devices %}
             <tr>
                 <td><a href="{% url 'device-detail' device.id %}">{{ device.dev_name }}</a></td>
-                <td>{{ device.dev_status }}</td>
+                {% if device.dev_status != "Alive" %}
+                    <td class="table-danger">{{ device.dev_status }}</td>
+                {% else %}
+                    <td class="table-success">{{ device.dev_status }}</td>
+                {% endif %}
                 <td>{{ device.dev_ip }}</td>
                 <td>{{ device.dev_mac }}</td>
+                <td>{{ device.dev_tx_traffic }}</td>
+                <td>{{ device.dev_rx_traffic }}</td>
+                <td>{{ device.dev_added_by }}</td>
                 <td>{{ device.dev_last_updated }}</td>
             </tr>
             {% endfor %}
-            
         </tbody>
     </table>
 </div>

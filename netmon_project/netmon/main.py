@@ -19,8 +19,6 @@ from email.mime.text import MIMEText
 # Global Variables
 STATUS_STR_ALIVE = "Alive"
 STATUS_STR_NOT_REACHABLE = "Not Reachable"
-GUI_ALERT_ALIVE = "Alive"
-GUI_ALERT_NOT_REACHABLE = "Not Reachable"
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
 EMAIL_ALERT_SUBJECT = "<< Network Monitor Alert >>"
@@ -59,9 +57,6 @@ def lldp_data_population(device):
     snmp_traffic_stats(device)
     return
 
-def snmp_traffic_stats(device):
-    return
-
 def email_form_message(user_name, dev_name, dev_ip):
     return "Attention " + str(user_name) + EMAIL_ALERT_BODY + "\n" + str(dev_name) + "(" + dev_ip + ")"
 
@@ -85,14 +80,20 @@ def email_send_alert(dev_name, dev_ip):
 @background(schedule=60)
 def start_monitor():
     devices = Device.objects.all()
+    snmp_desc_ptr = open("snmp.json",)
+    snmp_receive_data = json.load(snmp_desc_ptr)
     print("\n>>>>>>>>>>> In Start_monitor <<<<<<<<<<<\n")
     for device in devices:
         lldp_data_population(device)
+        device.dev_tx_traffic = int(device.dev_tx_traffic) + int(secrets.choice(snmp_receive_data["tstats"]))
+        device.dev_rx_traffic = int(device.dev_rx_traffic) + int(secrets.choice(snmp_receive_data["rstats"]))
+        device.save(update_fields=["dev_tx_traffic"])
+        device.save(update_fields=["dev_rx_traffic"])
         icmp_status = icmp_ping(device.dev_ip)
         if (device.dev_status != icmp_status):
             device.dev_status = icmp_status
             # if (icmp_status == STATUS_STR_NOT_REACHABLE):
-                # email_send_alert(device.dev_name, device.dev_ip)
+            #     email_send_alert(device.dev_name, device.dev_ip)
         device.save(update_fields=["dev_status"])
         device.dev_last_updated = f"{datetime.datetime.now():%d.%m.%Y %H:%M:%S}"
         device.save(update_fields=["dev_last_updated"])
