@@ -68,7 +68,7 @@ def email_send_alert(dev_name, dev_ip):
     s.login(EMAIL_HOST_USER, EMAIL_HOST_PASSWORD)
     for user in users:
         msg = MIMEMultipart()
-        msg['From']=EMAIL_HOST_USER
+        msg['From']="netmon@gmail.com"
         msg['To']=user.email
         msg['Subject']=EMAIL_ALERT_SUBJECT
         message = email_form_message(user.username, dev_name, dev_ip)
@@ -92,8 +92,8 @@ def start_monitor():
         icmp_status = icmp_ping(device.dev_ip)
         if (device.dev_status != icmp_status):
             device.dev_status = icmp_status
-            # if (icmp_status == STATUS_STR_NOT_REACHABLE):
-            #     email_send_alert(device.dev_name, device.dev_ip)
+            if (icmp_status == STATUS_STR_NOT_REACHABLE):
+                email_send_alert(device.dev_name, device.dev_ip)
         device.save(update_fields=["dev_status"])
         device.dev_last_updated = f"{datetime.datetime.now():%d.%m.%Y %H:%M:%S}"
         device.save(update_fields=["dev_last_updated"])
