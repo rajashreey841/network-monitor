@@ -82,7 +82,7 @@ def start_monitor():
     devices = Device.objects.all()
     snmp_desc_ptr = open("snmp.json",)
     snmp_receive_data = json.load(snmp_desc_ptr)
-    print("\n>>>>>>>>>>> In Start_monitor <<<<<<<<<<<\n")
+    print("\n>>>>>>>>>>> Start_monitor <<<<<<<<<<<\n")
     for device in devices:
         lldp_data_population(device)
         device.dev_tx_traffic = int(device.dev_tx_traffic) + int(secrets.choice(snmp_receive_data["tstats"]))

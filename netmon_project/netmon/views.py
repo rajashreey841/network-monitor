@@ -23,7 +23,7 @@ class DeviceDetailView(LoginRequiredMixin, DetailView):
 
 class DeviceCreateView(LoginRequiredMixin, CreateView):
     model = Device
-    fields = ['dev_name', 'dev_ip']
+    fields = ['dev_name', 'dev_ip', 'dev_type']
 
     def form_valid(self, form):
         form.instance.dev_added_by = self.request.user
@@ -31,7 +31,7 @@ class DeviceCreateView(LoginRequiredMixin, CreateView):
 
 class DeviceUpdateView(LoginRequiredMixin, UpdateView):
     model = Device
-    fields = ['dev_name', 'dev_ip']
+    fields = ['dev_name', 'dev_ip', 'dev_type']
 
     def form_valid(self, form):
         form.instance.dev_added_by = self.request.user
