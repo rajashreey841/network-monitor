@@ -1,13 +1,15 @@
 import os
 import platform
 import subprocess
+import json
 import datetime
+import secrets
 from subprocess import PIPE, Popen
 from getmac import get_mac_address
 from getmac import getmac
 from django.db import models
 from django.contrib.auth.models import User
-from netmon.models import Device, Alert
+from netmon.models import Device
 from background_task import background
 # Emails
 import smtplib
@@ -46,6 +48,20 @@ def arp_mac_lookup(host):
     print("host: ", str(host), "mac: ", mac)
     return str(mac)
 
+def lldp_data_population(device):
+    f = open("lldp.json",)
+    data = json.load(f)
+    if(device.dev_mac and device.dev_mac != "None"):
+        return
+    device.dev_mac = secrets.choice(data["l2fwdaddr"])
+    print(secrets.choice(data["l2fwdaddr"]))
+    device.save(update_fields=["dev_mac"])
+    snmp_traffic_stats(device)
+    return
+
+def snmp_traffic_stats(device):
+    return
+
 def email_form_message(user_name, dev_name, dev_ip):
     return "Attention " + str(user_name) + EMAIL_ALERT_BODY + "\n" + str(dev_name) + "(" + dev_ip + ")"
 
@@ -64,28 +80,24 @@ def email_send_alert(dev_name, dev_ip):
         msg.attach(MIMEText(message, 'plain'))
         s.send_message(msg)
         del msg
-
-def gui_send_alert(dev_name, dev_ip, type, msg):
-    alert = Alert(alert_desc=msg, alert_dev=dev_name, alert_ip=dev_ip, alert_type=type)
-    alert.save()
+    return
 
 @background(schedule=60)
 def start_monitor():
     devices = Device.objects.all()
     print("\n>>>>>>>>>>> In Start_monitor <<<<<<<<<<<\n")
     for device in devices:
-        # mac = arp_mac_lookup(arp_mac_lookup(device.dev_ip))
-        # device.dev_mac = mac
-        device.save(update_fields=["dev_mac"])
+        lldp_data_population(device)
         icmp_status = icmp_ping(device.dev_ip)
         if (device.dev_status != icmp_status):
             device.dev_status = icmp_status
-            if (icmp_status == STATUS_STR_NOT_REACHABLE):
-                email_send_alert(device.dev_name, device.dev_ip)
-                gui_send_alert(device.dev_name, device.dev_ip, "Red", GUI_ALERT_NOT_REACHABLE)
-            else:
-                gui_send_alert(device.dev_name, device.dev_ip, "Red", GUI_ALERT_ALIVE)
+            # if (icmp_status == STATUS_STR_NOT_REACHABLE):
+                # email_send_alert(device.dev_name, device.dev_ip)
         device.save(update_fields=["dev_status"])
+        device.dev_last_updated = f"{datetime.datetime.now():%d.%m.%Y %H:%M:%S}"
+        device.save(update_fields=["dev_last_updated"])
+    print("\n>>>>>>>>>>> Complete <<<<<<<<<<<\n")
+    return
 
 if __name__ == '__main__':
     start_monitor()

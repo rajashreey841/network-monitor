@@ -1,17 +1,6 @@
 {% extends "netmon/base.html" %}
 {% block content %}
-{% for device in devices %}
-<!-- <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ device.dev_added_by.profile.image.url }}">
-    <div class="media-body">
-        <div class="article-metadata">
-            <small class="text-muted">{{ device.dev_ip }} | Last Updated: {{ device.dev_last_updated }}</small>
-        </div>
-        <h2><a class="article-title" href="{% url 'device-detail' device.id %}">{{ device.dev_name }}</a></h2>
-        <p class="article-content">Status: {{ device.dev_status }}</p>
-    </div>
-</article>
-{% endfor %} -->
+
 <div>
     <table class="table table-hover table-list">
         <thead class="thead-light">
@@ -33,20 +22,8 @@
                 <td>{{ device.dev_last_updated }}</td>
             </tr>
             {% endfor %}
+            
         </tbody>
     </table>
 </div>
-<div class="col-md-4">
-    <div class="content-section">
-        <h3>Alerts</h3>
-        {% for alert in alerts %}
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-light">{{ alert.alert_time }}:</li>
-            <li class="list-group-item list-group-item-light">{{ alert.alert_dev }} [{{ alert.alert_ip }}]: {{ alert.alert_desc }}</li>
-        </ul>
-        {% endfor %}
-        </p>
-    </div>
-</div>
-
 {%endblock content %}

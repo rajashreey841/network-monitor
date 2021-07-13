@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.views.generic import (
     ListView, 
@@ -7,16 +8,9 @@ from django.views.generic import (
     DeleteView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Device, Alert
+from .models import Device
 
 alerts = dict()
-
-def home(request):
-    context = {
-        'devices': Device.objects.all(),
-        'alerts': Alert.objects.all()
-    }
-    return render(request, 'netmon/home.html', context)
 
 class DeviceListView(LoginRequiredMixin, ListView):
     model = Device

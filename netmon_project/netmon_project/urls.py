@@ -54,4 +54,5 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# start_monitor()
 start_monitor(repeat=5, repeat_until=None)
